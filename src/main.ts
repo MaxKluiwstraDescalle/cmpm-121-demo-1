@@ -32,7 +32,7 @@ setInterval(() => {
     counter += 1;
     counterDisplay.innerHTML = `Counter: ${counter}`;
   }, 1000);
-
+  
 
 // Append the button to the body (or any other container element)
 document.body.appendChild(button);
