@@ -10,14 +10,14 @@ header.innerHTML = gameName;
 app.append(header);
 
 // Create the button element
-const button = document.createElement('button');
+const button = document.createElement("button");
 
 // Set the button's text
-button.textContent = 'Click Me 🚴';
+button.textContent = "Click Me 🚴";
 
 // Add an event listener to handle clicks
-button.addEventListener('click', () => {
-  alert('Button was clicked!');
+button.addEventListener("click", () => {
+  alert("Button was clicked!");
 });
 
 /*button.style.position = 'absolute';
