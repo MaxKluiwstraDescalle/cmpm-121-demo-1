@@ -76,7 +76,7 @@ button:focus-visible {
   font-size: 2em;
   position: absolute; /* or 'relative' */
   top: 20px; /* Adjust these values to position as needed */
-  left: 0px;
+  left: 50px;
 }
 
 @media (prefers-color-scheme: light) {
