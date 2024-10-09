@@ -32,14 +32,14 @@ let fps = 60;
 let increment = 0;
 
 function updateCounter(currentTime: number) {
-    const deltaTime = currentTime - lastTime;
-    fps = 1000/ deltaTime;
-    increment = 1/fps;
-    counter += increment;
-    counterDisplay.innerHTML = `Counter: ${counter.toFixed(2)}`;
-   
-    lastTime = currentTime;
-    requestAnimationFrame(updateCounter);
+  const deltaTime = currentTime - lastTime;
+  fps = 1000 / deltaTime;
+  increment = 1 / fps;
+  counter += increment;
+  counterDisplay.innerHTML = `Counter: ${counter.toFixed(2)}`;
+
+  lastTime = currentTime;
+  requestAnimationFrame(updateCounter);
 }
 
 /*setInterval(() => {
