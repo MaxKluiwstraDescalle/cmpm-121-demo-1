@@ -27,11 +27,26 @@ button.addEventListener("click", () => {
   counter += 1;
   counterDisplay.innerHTML = `Counter: ${counter}`;
 });
+let lastTime = 0;
+let fps = 60;
+let increment = 0;
 
-setInterval(() => {
+function updateCounter(currentTime: number) {
+    const deltaTime = currentTime - lastTime;
+    fps = 1000/ deltaTime;
+    increment = 1/fps;
+    counter += increment;
+    counterDisplay.innerHTML = `Counter: ${counter.toFixed(2)}`;
+   
+    lastTime = currentTime;
+    requestAnimationFrame(updateCounter);
+}
+
+/*setInterval(() => {
   counter += 1;
   counterDisplay.innerHTML = `Counter: ${counter}`;
-}, 1000);
+}, 1000);*/
 
 // Append the button to the body (or any other container element)
 document.body.appendChild(button);
+requestAnimationFrame(updateCounter);
