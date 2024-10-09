@@ -13,7 +13,7 @@ app.append(header);
 // Create and append the counter display
 const counterDisplay = document.createElement("p");
 counterDisplay.innerHTML = `Counter: ${counter}`;
-counterDisplay.id = 'counterDisplay';
+counterDisplay.id = "counterDisplay";
 app.append(counterDisplay);
 
 // Create the button element

@@ -72,10 +72,10 @@ button:focus-visible {
 }
 
 #counterDisplay {
-  font-family:inherit;
+  font-family: inherit;
   font-size: 2em;
-  position: absolute;   /* or 'relative' */
-  top: 20px;            /* Adjust these values to position as needed */
+  position: absolute; /* or 'relative' */
+  top: 20px; /* Adjust these values to position as needed */
   left: 300px;
 }
 
