@@ -2,7 +2,7 @@ import "./style.css";
 
 const app: HTMLDivElement = document.querySelector("#app")!;
 let counter: number = 0;
-let growth : number = 0;
+let growth: number = 0;
 let rate: number = 0;
 
 const gameName = "Miles Biked";
@@ -27,7 +27,7 @@ button.textContent = "Click Me 🚴";
 buttonUp.textContent = "Buy Teammates!";
 
 buttonUp.style.top = "600px";
-buttonUp.style.left = "550px"
+buttonUp.style.left = "550px";
 
 // Add an event listener to handle clicks
 button.addEventListener("click", () => {
@@ -39,18 +39,17 @@ let fps = 60;
 let increment = 0;
 
 buttonUp.addEventListener("click", () => {
-    if(counter>= 10){
-        counter-= 10;
-        rate += 1;
-        growthRate(rate);
-        
-    }
-  });
+  if (counter >= 10) {
+    counter -= 10;
+    rate += 1;
+    growthRate(rate);
+  }
+});
 
-buttonUp.disabled= true;
+buttonUp.disabled = true;
 
-function updateButtonState(){
-    buttonUp.disabled = counter < 10;
+function updateButtonState() {
+  buttonUp.disabled = counter < 10;
 }
 
 function updateCounter(currentTime: number) {
@@ -66,13 +65,11 @@ function updateCounter(currentTime: number) {
   requestAnimationFrame(updateCounter);
 }
 
-function growthRate(newRate: number){
-    growth = newRate
+function growthRate(newRate: number) {
+  growth = newRate;
 }
-
 
 // Append the button to the body (or any other container element)
 document.body.appendChild(button);
 document.body.appendChild(buttonUp);
 requestAnimationFrame(updateCounter);
-
