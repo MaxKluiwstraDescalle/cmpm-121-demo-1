@@ -3,7 +3,32 @@ import "./style.css";
 const app: HTMLDivElement = document.querySelector("#app")!;
 let counter: number = 0;
 let growth: number = 0;
-let rate: number = 0;
+
+
+interface Item {
+    name: string;
+    cost: number;
+    rate: number;
+  }
+  
+
+  const availableItems: Item[] = [
+    { name: "Teammate", cost: 10, rate: 0.1 },
+    { name: "Coach", cost: 100, rate: 2 },
+    { name: "Team", cost: 1000, rate: 50 }
+  ];
+
+  const purchaseCount: { [key: string]: number } = {
+    Teammate: 0,
+    Coach: 0,
+    Team: 0
+  };
+
+  const purchaseCounters: { [key: string]: HTMLSpanElement } = {
+    Teammate: document.createElement("span"),
+    Coach: document.createElement("span"),
+    Team: document.createElement("span")
+  };
 
 const gameName = "Miles Biked";
 document.title = gameName;
@@ -12,45 +37,72 @@ const header = document.createElement("h1");
 header.innerHTML = gameName;
 app.append(header);
 
-// Create and append the counter display
+
 const counterDisplay = document.createElement("p");
 counterDisplay.innerHTML = `Counter: ${counter}`;
 counterDisplay.id = "counterDisplay";
 app.append(counterDisplay);
 
-// Create the button element
-const button = document.createElement("button");
-const buttonUp = document.createElement("button");
+const growthRateDisplay = document.createElement("p");
+growthRateDisplay.innerHTML = `Growth Rate: ${growth.toFixed(2)}`;
+growthRateDisplay.id = "growthRateDisplay";
+app.append(growthRateDisplay);
 
-// Set the button's text
-button.textContent = "Click Me 🚴";
-buttonUp.textContent = "Buy Teammates!";
 
-buttonUp.style.top = "600px";
-buttonUp.style.left = "550px";
 
-// Add an event listener to handle clicks
-button.addEventListener("click", () => {
+
+const clickButton = document.createElement("button");
+clickButton.textContent = "Peddle 🚴";
+clickButton.className = "button";
+clickButton.addEventListener("click", () => {
   counter += 1;
   counterDisplay.innerHTML = `Miles: ${counter}`;
 });
+
+app.appendChild(clickButton);
+
+
+const buttonContainer = document.createElement("div");
+buttonContainer.id = "buttonContainer";
+app.appendChild(buttonContainer);
+
+
+
+function createItemButtons(items: Item[]) {
+    items.forEach((item) => {
+
+      
+      const purchaseCounter = purchaseCounters[item.name];
+      purchaseCounter.style.display = "block";
+      purchaseCounter.style.marginTop = "5px";
+      purchaseCounter.innerHTML = `Purchased: ${purchaseCount[item.name]}`;
+        
+      const button = document.createElement("button");
+      button.textContent = `Buy ${item.name}`;
+      button.className = "button";
+      button.style.margin = "10px";
+      button.addEventListener("click", () => {
+        if (counter >= item.cost) {
+          counter -= item.cost;
+          growth += item.rate;
+          purchaseCount[item.name] += 1;
+          purchaseCounters[item.name].innerHTML = `Purchased: ${purchaseCount[item.name]}`;
+          counterDisplay.innerHTML = `Counter: ${counter.toFixed(2)}`;
+          growthRateDisplay.innerHTML = `Growth Rate: ${growth.toFixed(2)}`;
+        }
+      });
+      buttonContainer.appendChild(button);
+      buttonContainer.appendChild(purchaseCounter);
+
+      updateButtonState(button, item);
+    });
+  }
+
+createItemButtons(availableItems);
 let lastTime = 0;
 let fps = 60;
 let increment = 0;
 
-buttonUp.addEventListener("click", () => {
-  if (counter >= 10) {
-    counter -= 10;
-    rate += 1;
-    growthRate(rate);
-  }
-});
-
-buttonUp.disabled = true;
-
-function updateButtonState() {
-  buttonUp.disabled = counter < 10;
-}
 
 function updateCounter(currentTime: number) {
   const deltaTime = currentTime - lastTime;
@@ -58,18 +110,22 @@ function updateCounter(currentTime: number) {
   increment = growth / fps;
   counter += increment;
   counterDisplay.innerHTML = `Miles: ${counter.toFixed(2)}`;
-
+  growthRateDisplay.innerHTML = `Growth Rate: ${growth.toFixed(2)}`;
+  updateAllButtonStates();
   lastTime = currentTime;
 
-  updateButtonState();
   requestAnimationFrame(updateCounter);
 }
 
-function growthRate(newRate: number) {
-  growth = newRate;
-}
+function updateAllButtonStates() {
+    availableItems.forEach((item, index) => {
+      const button = buttonContainer.children[index * 2] as HTMLButtonElement;
+      updateButtonState(button, item);
+    });
+  }
 
-// Append the button to the body (or any other container element)
-document.body.appendChild(button);
-document.body.appendChild(buttonUp);
+function updateButtonState(button: HTMLButtonElement, item: Item) {
+    button.disabled = counter < item.cost;
+  }
+
 requestAnimationFrame(updateCounter);

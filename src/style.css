@@ -35,7 +35,7 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
   position: relative;
-  top: -300px; /* Adjust this value as needed */
+  top: 0px; /* Adjust this value as needed */
   left: 0px;
 }
 
@@ -44,6 +44,14 @@ h1 {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+#buttonContainer {
+  display: flex;
+  flex-direction: row; /* Stack buttons vertically */
+  gap: 10px; /* Space between buttons */
+  align-items: center; /* Center buttons horizontally */
+  margin-top: 20px; /* Space above the container */
 }
 
 button {
@@ -56,7 +64,7 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-  position: absolute;
+  /*position: absolute;*/
   top: 420px;
   left: 550px;
   /*transform: translate(-50%, -50%)*/
@@ -77,6 +85,10 @@ button:focus-visible {
   position: absolute; /* or 'relative' */
   top: 20px; /* Adjust these values to position as needed */
   left: 50px;
+}
+
+#clickButton {
+  margin-bottom: 20px; /* Add spacing between clickButton and container */
 }
 
 @media (prefers-color-scheme: light) {
