@@ -67,7 +67,7 @@ function createItemButtons(items: Item[]) {
     purchaseCounter.innerHTML = `Purchased: ${purchaseCount[item.name]}`;
 
     const button = document.createElement("button");
-    button.textContent = `Buy ${item.name}`;
+    button.textContent = `Buy ${item.name} for ${item.cost.toFixed(2)}`;
     button.className = "button";
     button.style.margin = "10px";
     button.addEventListener("click", () => {
@@ -75,8 +75,9 @@ function createItemButtons(items: Item[]) {
         counter -= item.cost;
         growth += item.rate;
         purchaseCount[item.name] += 1;
-        purchaseCounters[item.name].innerHTML =
-          `Purchased: ${purchaseCount[item.name]}`;
+        purchaseCounters[item.name].innerHTML =`Purchased: ${purchaseCount[item.name]}`;
+        item.cost = Math.round(item.cost * 1.15 * 100) / 100; 
+        button.textContent = `Buy ${item.name} for ${item.cost.toFixed(2)}`;
         counterDisplay.innerHTML = `Counter: ${counter.toFixed(2)}`;
         growthRateDisplay.innerHTML = `Growth Rate: ${growth.toFixed(2)}`;
       }
