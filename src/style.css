@@ -48,9 +48,10 @@ h1 {
 
 #buttonContainer {
   display: flex;
+  justify-content: center;
   flex-direction: row; /* Stack buttons vertically */
   gap: 10px; /* Space between buttons */
-  align-items: center; /* Center buttons horizontally */
+  align-items: flex-start; /* Center buttons horizontally */
   margin-top: 20px; /* Space above the container */
 }
 
@@ -102,4 +103,31 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.circular-button {
+  border-radius: 50%; /* Makes the button circular */
+  width: 300px; /* Adjust size as needed */
+  height: 300px;
+  border: 2px solid #646cff; /* Optional border */
+  background-color: #1a1a1a; /* Button color */
+  color: white; /* Text color */
+  font-size: 0.8em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.circular-button:hover {
+  background-color: #353535; /* Darken on hover */
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Adjust spacing as needed */
 }

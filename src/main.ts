@@ -45,15 +45,19 @@ growthRateDisplay.innerHTML = `Growth Rate: ${growth.toFixed(2)}`;
 growthRateDisplay.id = "growthRateDisplay";
 app.append(growthRateDisplay);
 
+const clickButtonContainer = document.createElement("div");
+clickButtonContainer.className = "center-container";
+
 const clickButton = document.createElement("button");
 clickButton.textContent = "Peddle 🚴";
-clickButton.className = "button";
+clickButton.className = "circular-button";
 clickButton.addEventListener("click", () => {
   counter += 1;
   counterDisplay.innerHTML = `Miles: ${counter}`;
 });
 
-app.appendChild(clickButton);
+clickButtonContainer.appendChild(clickButton);
+app.appendChild(clickButtonContainer);
 
 const buttonContainer = document.createElement("div");
 buttonContainer.id = "buttonContainer";
