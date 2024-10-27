@@ -3,67 +3,34 @@ import "./style.css";
 const app: HTMLDivElement = document.querySelector("#app")!;
 let counter: number = 0;
 let growth: number = 0;
+const baseGrowthRate = 1.15
+const baseCost = 10;
 
-interface Item {
-  name: string;
-  cost: number;
-  rate: number;
+function updateButtonState(button: HTMLButtonElement, item: autoClickerButton) {
+  button.disabled = counter < item.cost;
 }
 
-const availableItems: Item[] = [
-  { name: "Teammate", cost: 10, rate: 0.1 },
-  { name: "Coach", cost: 100, rate: 2 },
-  { name: "Team", cost: 1000, rate: 50 },
-];
+function updateAllButtonStates() {
+  availableItems.forEach((item, index) => {
+    const button = buttonContainer.children[index * 2] as HTMLButtonElement;
+    updateButtonState(button, item);
+  });
+}
 
-const purchaseCount: { [key: string]: number } = {
-  Teammate: 0,
-  Coach: 0,
-  Team: 0,
-};
+function updateCounter(currentTime: number) {
+  const deltaTime = currentTime - lastTime;
+  fps = 1000 / deltaTime;
+  increment = growth / fps;
+  counter += increment;
+  milesCounter.innerHTML = `Miles: ${counter.toFixed(2)}`;
+  automatedPedaling.innerHTML = `Growth Rate: ${growth.toFixed(2)}`;
+  updateAllButtonStates();
+  lastTime = currentTime;
 
-const purchaseCounters: { [key: string]: HTMLSpanElement } = {
-  Teammate: document.createElement("span"),
-  Coach: document.createElement("span"),
-  Team: document.createElement("span"),
-};
+  requestAnimationFrame(updateCounter);
+}
 
-const gameName = "Miles Biked";
-document.title = gameName;
-
-const header = document.createElement("h1");
-header.innerHTML = gameName;
-app.append(header);
-
-const counterDisplay = document.createElement("p");
-counterDisplay.innerHTML = `Counter: ${counter}`;
-counterDisplay.id = "counterDisplay";
-app.append(counterDisplay);
-
-const growthRateDisplay = document.createElement("p");
-growthRateDisplay.innerHTML = `Growth Rate: ${growth.toFixed(2)}`;
-growthRateDisplay.id = "growthRateDisplay";
-app.append(growthRateDisplay);
-
-const clickButtonContainer = document.createElement("div");
-clickButtonContainer.className = "center-container";
-
-const clickButton = document.createElement("button");
-clickButton.textContent = "Peddle 🚴";
-clickButton.className = "circular-button";
-clickButton.addEventListener("click", () => {
-  counter += 1;
-  counterDisplay.innerHTML = `Miles: ${counter}`;
-});
-
-clickButtonContainer.appendChild(clickButton);
-app.appendChild(clickButtonContainer);
-
-const buttonContainer = document.createElement("div");
-buttonContainer.id = "buttonContainer";
-app.appendChild(buttonContainer);
-
-function createItemButtons(items: Item[]) {
+function createItemButtons(items: autoClickerButton[]) {
   items.forEach((item) => {
     const purchaseCounter = purchaseCounters[item.name];
     purchaseCounter.style.display = "block";
@@ -81,10 +48,10 @@ function createItemButtons(items: Item[]) {
         purchaseCount[item.name] += 1;
         purchaseCounters[item.name].innerHTML =
           `Purchased: ${purchaseCount[item.name]}`;
-        item.cost = Math.round(item.cost * 1.15 * 100) / 100;
+        item.cost = Math.round(item.cost * baseGrowthRate * 100) / 100;
         button.textContent = `Buy ${item.name} for ${item.cost.toFixed(2)}`;
-        counterDisplay.innerHTML = `Counter: ${counter.toFixed(2)}`;
-        growthRateDisplay.innerHTML = `Growth Rate: ${growth.toFixed(2)}`;
+        milesCounter.innerHTML = `Counter: ${counter.toFixed(2)}`;
+        automatedPedaling.innerHTML = `Growth Rate: ${growth.toFixed(2)}`;
       }
     });
     buttonContainer.appendChild(button);
@@ -94,33 +61,73 @@ function createItemButtons(items: Item[]) {
   });
 }
 
+interface autoClickerButton {
+  name: string;
+  cost: number;
+  rate: number;
+}
+
+const availableItems: autoClickerButton[] = [
+  { name: "Teammate", cost: 1*baseCost, rate: 0.1 },
+  { name: "Coach", cost: 10*baseCost, rate: 2 },
+  { name: "Team", cost: 100*baseCost, rate: 50 },
+];
+
+const purchaseCount: { [key: string]: number } = {
+  Teammate: 0,
+  Coach: 0,
+  Team: 0,
+};
+
+const purchaseCounters: { [key: string]: HTMLSpanElement } = {
+  Teammate: document.createElement("span"),
+  Coach: document.createElement("span"),
+  Team: document.createElement("span"),
+};
+
+
+
+const gameName = "Miles Biked";
+document.title = gameName;
+
+const gameHeader = document.createElement("h1");
+gameHeader.innerHTML = gameName;
+app.append(gameHeader);
+
+const milesCounter = document.createElement("p");
+milesCounter.innerHTML = `Counter: ${counter}`;
+milesCounter.id = "counterDisplay";
+app.append(milesCounter);
+
+const automatedPedaling = document.createElement("p");
+automatedPedaling.innerHTML = `Growth Rate: ${growth.toFixed(2)}`;
+automatedPedaling.id = "growthRateDisplay";
+app.append(automatedPedaling);
+
+const clickButtonContainer = document.createElement("div");
+clickButtonContainer.className = "center-container";
+
+const manualPedalButton = document.createElement("button");
+manualPedalButton.textContent = "Peddle 🚴";
+manualPedalButton.className = "circular-button";
+manualPedalButton.addEventListener("click", () => {
+  counter += 1;
+  milesCounter.innerHTML = `Miles: ${counter}`;
+});
+
+clickButtonContainer.appendChild(manualPedalButton);
+app.appendChild(clickButtonContainer);
+
+const buttonContainer = document.createElement("div");
+buttonContainer.id = "buttonContainer";
+app.appendChild(buttonContainer);
+
+
+
 createItemButtons(availableItems);
 let lastTime = 0;
 let fps = 60;
 let increment = 0;
 
-function updateCounter(currentTime: number) {
-  const deltaTime = currentTime - lastTime;
-  fps = 1000 / deltaTime;
-  increment = growth / fps;
-  counter += increment;
-  counterDisplay.innerHTML = `Miles: ${counter.toFixed(2)}`;
-  growthRateDisplay.innerHTML = `Growth Rate: ${growth.toFixed(2)}`;
-  updateAllButtonStates();
-  lastTime = currentTime;
-
-  requestAnimationFrame(updateCounter);
-}
-
-function updateAllButtonStates() {
-  availableItems.forEach((item, index) => {
-    const button = buttonContainer.children[index * 2] as HTMLButtonElement;
-    updateButtonState(button, item);
-  });
-}
-
-function updateButtonState(button: HTMLButtonElement, item: Item) {
-  button.disabled = counter < item.cost;
-}
 
 requestAnimationFrame(updateCounter);
