@@ -68,9 +68,9 @@ interface autoClickerButton {
 }
 
 const availableItems: autoClickerButton[] = [
-  { name: "Teammate", cost: 1*baseCost, rate: 0.1 },
-  { name: "Coach", cost: 10*baseCost, rate: 2 },
-  { name: "Team", cost: 100*baseCost, rate: 50 },
+  { name: "Teammate", cost: 1 * baseCost, rate: 0.1 },
+  { name: "Coach", cost: 10 * baseCost, rate: 2 },
+  { name: "Team", cost: 100 * baseCost, rate: 50 },
 ];
 
 const purchaseCount: { [key: string]: number } = {
@@ -117,11 +117,10 @@ manualPedalButton.addEventListener("click", () => {
   milesCounter.innerHTML = `Miles: ${counter}`;
 });
 
-
 //Inspired by: https://scso-ucsc.github.io/Incremental-Game-Development/
 setInterval(() => {
-  const jiggleDuration = 500; 
-  const jiggleInterval = 50; 
+  const jiggleDuration = 500;
+  const jiggleInterval = 50;
   const jiggleEndTime = Date.now() + jiggleDuration;
 
   const jiggle = () => {
@@ -129,7 +128,7 @@ setInterval(() => {
       buttonText.style.transform = `translate(${Math.random() * 2 - 1}px, ${Math.random() * 2 - 1}px)`;
       setTimeout(jiggle, jiggleInterval);
     } else {
-      buttonText.style.transform = 'translate(0, 0)';
+      buttonText.style.transform = "translate(0, 0)";
     }
   };
 
